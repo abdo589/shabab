@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
+import { supabase } from "@/integrations/supabase/client";
+import { Loader2 } from "lucide-react";
 
 interface FormData {
   fullName: string;
@@ -82,9 +84,22 @@ const RegistrationForm = () => {
     setIsSubmitting(true);
 
     try {
-      // In a real application, this would be an API call
-      // For now, simulate an API call with a timeout
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Save data to Supabase
+      const { error } = await supabase
+        .from('registrations')
+        .insert({
+          full_name: formData.fullName,
+          national_id: formData.nationalId,
+          phone: formData.phone,
+          email: formData.email || null, // Handle empty strings
+          address: formData.address,
+          gender: formData.gender,
+          birth_date: formData.birthDate,
+          education: formData.education || null, // Handle empty strings
+          job_title: formData.jobTitle || null // Handle empty strings
+        });
+
+      if (error) throw error;
       
       toast({
         title: "تم التسجيل بنجاح!",
@@ -94,6 +109,7 @@ const RegistrationForm = () => {
       // Reset form
       setFormData(initialFormData);
     } catch (error) {
+      console.error("Registration error:", error);
       toast({
         title: "حدث خطأ",
         description: "لم يتم التسجيل، يرجى المحاولة مرة أخرى",
@@ -252,7 +268,12 @@ const RegistrationForm = () => {
                 className="w-full bg-blue-gradient hover:opacity-90"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'جاري التسجيل...' : 'إرسال البيانات'}
+                {isSubmitting ? (
+                  <span className="flex items-center">
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> 
+                    جاري التسجيل...
+                  </span>
+                ) : 'إرسال البيانات'}
               </Button>
             </div>
           </motion.div>
