@@ -21,6 +21,7 @@ interface FormData {
   birthDate: string;
   education: string;
   jobTitle: string;
+  memberType: string;
 }
 
 const initialFormData: FormData = {
@@ -33,6 +34,7 @@ const initialFormData: FormData = {
   birthDate: '',
   education: '',
   jobTitle: '',
+  memberType: 'عضو',
 };
 
 const RegistrationForm = () => {
@@ -96,7 +98,8 @@ const RegistrationForm = () => {
           gender: formData.gender,
           birth_date: formData.birthDate,
           education: formData.education || null, // Handle empty strings
-          job_title: formData.jobTitle || null // Handle empty strings
+          job_title: formData.jobTitle || null, // Handle empty strings
+          member_type: formData.memberType // Add member type
         });
 
       if (error) throw error;
@@ -228,6 +231,24 @@ const RegistrationForm = () => {
                   required
                 />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>نوع العضوية</Label>
+              <RadioGroup 
+                defaultValue={formData.memberType} 
+                onValueChange={(value) => handleSelectChange('memberType', value)}
+                className="flex gap-6"
+              >
+                <div className="flex items-center space-x-2 space-x-reverse">
+                  <RadioGroupItem value="عضو" id="regular" />
+                  <Label htmlFor="regular">عضو</Label>
+                </div>
+                <div className="flex items-center space-x-2 space-x-reverse">
+                  <RadioGroupItem value="عضو تنظيمي" id="organizational" />
+                  <Label htmlFor="organizational">عضو تنظيمي</Label>
+                </div>
+              </RadioGroup>
             </div>
 
             {/* Professional Information */}

@@ -10,6 +10,7 @@ export interface User {
   birth_date: string;
   education?: string;
   job_title?: string;
+  member_type?: string;
   created_at: string;
 }
 

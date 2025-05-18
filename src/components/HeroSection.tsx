@@ -51,7 +51,7 @@ const HeroSection = () => {
           >
             <div className="relative">
               <img 
-                src="/lovable-uploads/f51677d7-df3c-48e8-9410-c3ca099181fb.png" 
+                src="/lovable-uploads/76a8a601-f09c-4cc3-a8a8-e117e33201ea.png" 
                 alt="شباب مستقبل وطن" 
                 className="rounded-lg shadow-xl animate-float max-w-full h-auto"
               />
