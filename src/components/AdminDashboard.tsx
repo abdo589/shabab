@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,6 +14,7 @@ interface User {
   full_name: string;
   national_id: string;
   phone: string;
+  email?: string; // Making email optional since it's nullable in the database
   address: string;
   gender: string;
   birth_date: string;
