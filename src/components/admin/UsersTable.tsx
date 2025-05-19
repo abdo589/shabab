@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User } from './models';
-import { Download, Search, Loader2 } from 'lucide-react';
+import { Download, Search, Loader2, FileExcel } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 interface UsersTableProps {
@@ -40,8 +40,6 @@ const UsersTable = ({ users, loading }: UsersTableProps) => {
         'العنوان': user.address,
         'الجنس': user.gender,
         'تاريخ الميلاد': user.birth_date,
-        'المؤهل التعليمي': user.education || '-',
-        'الوظيفة': user.job_title || '-',
         'نوع العضوية': user.member_type || 'عضو',
         'تاريخ التسجيل': formatDate(user.created_at),
       }));
@@ -65,7 +63,7 @@ const UsersTable = ({ users, loading }: UsersTableProps) => {
   );
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 bg-white p-6 rounded-xl shadow-md">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full sm:w-72">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
@@ -77,7 +75,9 @@ const UsersTable = ({ users, loading }: UsersTableProps) => {
             className="pl-10"
           />
         </div>
-        <Button onClick={exportToExcel} disabled={exporting || users.length === 0} 
+        <Button 
+          onClick={exportToExcel} 
+          disabled={exporting || users.length === 0} 
           className="bg-green-600 hover:bg-green-700 transition-all min-w-[160px]"
         >
           {exporting ? (
@@ -87,24 +87,24 @@ const UsersTable = ({ users, loading }: UsersTableProps) => {
             </>
           ) : (
             <>
-              <Download className="ml-2 h-4 w-4" />
+              <FileExcel className="ml-2 h-4 w-4" />
               تصدير إلى Excel
             </>
           )}
         </Button>
       </div>
 
-      <div className="bg-white rounded-lg shadow-md">
+      <div>
         <Table>
           <TableCaption>قائمة الأعضاء المسجلين ({filteredUsers.length})</TableCaption>
           <TableHeader>
-            <TableRow>
-              <TableHead className="text-right">الإسم</TableHead>
-              <TableHead className="text-right">رقم الهاتف</TableHead>
-              <TableHead className="text-right">الرقم القومي</TableHead>
-              <TableHead className="text-right">الجنس</TableHead>
-              <TableHead className="text-right">نوع العضوية</TableHead>
-              <TableHead className="text-right">تاريخ التسجيل</TableHead>
+            <TableRow className="bg-gray-50">
+              <TableHead className="text-right font-bold">الإسم</TableHead>
+              <TableHead className="text-right font-bold">رقم الهاتف</TableHead>
+              <TableHead className="text-right font-bold">الرقم القومي</TableHead>
+              <TableHead className="text-right font-bold">الجنس</TableHead>
+              <TableHead className="text-right font-bold">نوع العضوية</TableHead>
+              <TableHead className="text-right font-bold">تاريخ التسجيل</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -125,7 +125,7 @@ const UsersTable = ({ users, loading }: UsersTableProps) => {
               </TableRow>
             ) : (
               filteredUsers.map((user) => (
-                <TableRow key={user.id} className="hover:bg-blue-50">
+                <TableRow key={user.id} className="hover:bg-blue-50 transition-colors">
                   <TableCell className="font-medium">{user.full_name}</TableCell>
                   <TableCell>{user.phone}</TableCell>
                   <TableCell>{user.national_id}</TableCell>

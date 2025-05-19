@@ -5,7 +5,6 @@ import HeroSection from '../components/HeroSection';
 import AboutSection from '../components/AboutSection';
 import FeaturedEvents from '../components/FeaturedEvents';
 import PartyPrinciples from '../components/PartyPrinciples';
-import StatsSection from '../components/StatsSection';
 import JoinCTA from '../components/JoinCTA';
 
 const Index = () => {
@@ -17,7 +16,6 @@ const Index = () => {
         <AboutSection />
         <PartyPrinciples />
         <FeaturedEvents />
-        <StatsSection />
         <JoinCTA />
       </main>
       <Footer />

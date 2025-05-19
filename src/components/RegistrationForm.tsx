@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
@@ -19,8 +18,6 @@ interface FormData {
   address: string;
   gender: string;
   birthDate: string;
-  education: string;
-  jobTitle: string;
   memberType: string;
 }
 
@@ -32,8 +29,6 @@ const initialFormData: FormData = {
   address: '',
   gender: 'ذكر',
   birthDate: '',
-  education: '',
-  jobTitle: '',
   memberType: 'عضو',
 };
 
@@ -97,8 +92,6 @@ const RegistrationForm = () => {
           address: formData.address,
           gender: formData.gender,
           birth_date: formData.birthDate,
-          education: formData.education || null, // Handle empty strings
-          job_title: formData.jobTitle || null, // Handle empty strings
           member_type: formData.memberType // Add member type
         });
 
@@ -249,38 +242,6 @@ const RegistrationForm = () => {
                   <Label htmlFor="organizational">عضو تنظيمي</Label>
                 </div>
               </RadioGroup>
-            </div>
-
-            {/* Professional Information */}
-            <h3 className="text-lg font-semibold mb-4 mt-8">المعلومات المهنية</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="education">المؤهل التعليمي</Label>
-                <Select onValueChange={(value) => handleSelectChange('education', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="اختر المؤهل التعليمي" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ثانوية عامة">ثانوية عامة</SelectItem>
-                    <SelectItem value="دبلوم فني">دبلوم فني</SelectItem>
-                    <SelectItem value="بكالوريوس">بكالوريوس/ليسانس</SelectItem>
-                    <SelectItem value="ماجستير">ماجستير</SelectItem>
-                    <SelectItem value="دكتوراه">دكتوراه</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="jobTitle">المهنة/الوظيفة</Label>
-                <Input
-                  id="jobTitle"
-                  name="jobTitle"
-                  value={formData.jobTitle}
-                  onChange={handleChange}
-                  placeholder="أدخل المسمى الوظيفي الحالي"
-                />
-              </div>
             </div>
 
             <div className="pt-4">

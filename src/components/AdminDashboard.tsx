@@ -2,11 +2,12 @@
 import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '../context/AuthContext';
 import { supabase } from "@/integrations/supabase/client";
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { LogOut } from 'lucide-react';
 
 // Import smaller components
-import Header from './admin/Header';
 import StatCards from './admin/StatCards';
 import UsersTable from './admin/UsersTable';
 import EventsTable from './admin/EventsTable';
@@ -18,12 +19,15 @@ const mockEvents: Event[] = [
   { id: 3, title: 'مبادرة شتاء دافئ', date: '2025-12-20', participants: 0, status: 'قادم' },
 ];
 
-const AdminDashboard = () => {
+interface AdminDashboardProps {
+  onLogout: () => void;
+}
+
+const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
   const [users, setUsers] = useState<User[]>([]);
   const [events] = useState<Event[]>(mockEvents);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  const { isAdmin, logout } = useAuth();
 
   const fetchRegistrations = async () => {
     setLoading(true);
@@ -54,30 +58,35 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    if (isAdmin) {
-      fetchRegistrations();
-    }
-  }, [isAdmin]);
+    fetchRegistrations();
+  }, []);
   
-  if (!isAdmin) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <p className="text-lg text-red-600">غير مصرح بالوصول. يرجى تسجيل الدخول كمسؤول.</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-6">
-      <Header onLogout={logout} />
+    <motion.div 
+      className="space-y-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">مرحباً بك في لوحة التحكم</h2>
+        <Button 
+          variant="outline" 
+          onClick={onLogout} 
+          className="text-sm flex gap-2 items-center"
+        >
+          <LogOut size={16} />
+          تسجيل الخروج
+        </Button>
+      </div>
       
       {/* Stats Cards */}
       <StatCards users={users} events={events} />
       
-      <Tabs defaultValue="users">
-        <TabsList className="mb-6">
-          <TabsTrigger value="users">المستخدمون المسجلين</TabsTrigger>
-          <TabsTrigger value="events">الفعاليات</TabsTrigger>
+      <Tabs defaultValue="users" className="mt-6">
+        <TabsList className="mb-6 bg-gray-100">
+          <TabsTrigger value="users" className="data-[state=active]:bg-white">المستخدمون المسجلين</TabsTrigger>
+          <TabsTrigger value="events" className="data-[state=active]:bg-white">الفعاليات</TabsTrigger>
         </TabsList>
         
         <TabsContent value="users">
@@ -88,7 +97,7 @@ const AdminDashboard = () => {
           <EventsTable events={events} />
         </TabsContent>
       </Tabs>
-    </div>
+    </motion.div>
   );
 };
 

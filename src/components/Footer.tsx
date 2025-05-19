@@ -77,11 +77,11 @@ const Footer = () => {
         <div className="border-t border-white border-opacity-20 pt-6 mt-6">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center mb-4 md:mb-0">
-              <div className="w-12 h-8 flex flex-col">
-                <div className="h-1/3 bg-egyptRed"></div>
-                <div className="h-1/3 bg-white"></div>
-                <div className="h-1/3 bg-egyptBlack"></div>
-              </div>
+              <img 
+                src="/lovable-uploads/39f82d89-9d2a-4870-9fac-55f1c2de88b2.png" 
+                alt="علم مصر" 
+                className="w-12 h-8 object-cover"
+              />
               <p className="mr-3 text-sm">كلنا نعمل من أجل مصر</p>
             </div>
             <div className="text-sm opacity-80">
