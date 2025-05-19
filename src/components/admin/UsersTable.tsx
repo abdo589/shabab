@@ -12,8 +12,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User } from './models';
-import { Download, Search, Loader2, FileText } from 'lucide-react';
+import { Download, Search, Loader2, FileText, Eye } from 'lucide-react';
 import * as XLSX from 'xlsx';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 interface UsersTableProps {
   users: User[];
@@ -23,6 +30,7 @@ interface UsersTableProps {
 const UsersTable = ({ users, loading }: UsersTableProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [exporting, setExporting] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -61,6 +69,10 @@ const UsersTable = ({ users, loading }: UsersTableProps) => {
     user.phone.includes(searchTerm) ||
     (user.email && user.email.includes(searchTerm))
   );
+
+  const viewUserDetails = (user: User) => {
+    setSelectedUser(user);
+  };
 
   return (
     <div className="space-y-4 bg-white p-6 rounded-xl shadow-md">
@@ -105,12 +117,13 @@ const UsersTable = ({ users, loading }: UsersTableProps) => {
               <TableHead className="text-right font-bold">الجنس</TableHead>
               <TableHead className="text-right font-bold">نوع العضوية</TableHead>
               <TableHead className="text-right font-bold">تاريخ التسجيل</TableHead>
+              <TableHead className="text-right font-bold">عرض</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-8">
+                <TableCell colSpan={7} className="text-center py-8">
                   <div className="flex justify-center">
                     <Loader2 className="h-8 w-8 animate-spin text-blue-dark" />
                   </div>
@@ -119,7 +132,7 @@ const UsersTable = ({ users, loading }: UsersTableProps) => {
               </TableRow>
             ) : filteredUsers.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-8">
+                <TableCell colSpan={7} className="text-center py-8">
                   {searchTerm ? 'لا توجد نتائج مطابقة للبحث' : 'لا يوجد مستخدمين مسجلين بعد'}
                 </TableCell>
               </TableRow>
@@ -132,6 +145,73 @@ const UsersTable = ({ users, loading }: UsersTableProps) => {
                   <TableCell>{user.gender}</TableCell>
                   <TableCell>{user.member_type || 'عضو'}</TableCell>
                   <TableCell>{formatDate(user.created_at)}</TableCell>
+                  <TableCell>
+                    <Sheet>
+                      <SheetTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="text-blue-500 hover:text-blue-700"
+                          onClick={() => viewUserDetails(user)}
+                        >
+                          <Eye size={18} />
+                        </Button>
+                      </SheetTrigger>
+                      <SheetContent side="left" className="w-[90%] sm:w-[450px] overflow-y-auto">
+                        <SheetHeader>
+                          <SheetTitle className="text-right text-xl mb-6">بيانات العضو</SheetTitle>
+                        </SheetHeader>
+                        <div className="space-y-6">
+                          <div className="space-y-4 rounded-lg border p-4 bg-slate-50">
+                            <div className="flex justify-between border-b pb-2">
+                              <span className="font-bold">الاسم</span>
+                              <span>{selectedUser?.full_name}</span>
+                            </div>
+                            <div className="flex justify-between border-b pb-2">
+                              <span className="font-bold">الرقم القومي</span>
+                              <span>{selectedUser?.national_id}</span>
+                            </div>
+                            <div className="flex justify-between border-b pb-2">
+                              <span className="font-bold">رقم الهاتف</span>
+                              <span dir="ltr">{selectedUser?.phone}</span>
+                            </div>
+                            <div className="flex justify-between border-b pb-2">
+                              <span className="font-bold">البريد الإلكتروني</span>
+                              <span dir="ltr">{selectedUser?.email || '-'}</span>
+                            </div>
+                            <div className="flex justify-between border-b pb-2">
+                              <span className="font-bold">العنوان</span>
+                              <span>{selectedUser?.address}</span>
+                            </div>
+                            <div className="flex justify-between border-b pb-2">
+                              <span className="font-bold">الجنس</span>
+                              <span>{selectedUser?.gender}</span>
+                            </div>
+                            <div className="flex justify-between border-b pb-2">
+                              <span className="font-bold">تاريخ الميلاد</span>
+                              <span>{selectedUser?.birth_date}</span>
+                            </div>
+                            <div className="flex justify-between border-b pb-2">
+                              <span className="font-bold">التعليم</span>
+                              <span>{selectedUser?.education || '-'}</span>
+                            </div>
+                            <div className="flex justify-between border-b pb-2">
+                              <span className="font-bold">الوظيفة</span>
+                              <span>{selectedUser?.job_title || '-'}</span>
+                            </div>
+                            <div className="flex justify-between border-b pb-2">
+                              <span className="font-bold">نوع العضوية</span>
+                              <span>{selectedUser?.member_type || 'عضو'}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="font-bold">تاريخ التسجيل</span>
+                              <span>{formatDate(selectedUser?.created_at || '')}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </SheetContent>
+                    </Sheet>
+                  </TableCell>
                 </TableRow>
               ))
             )}
