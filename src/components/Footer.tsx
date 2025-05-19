@@ -54,6 +54,9 @@ const Footer = () => {
               <li>
                 <Link to="/register" className="text-sm hover:underline">انضم إلينا</Link>
               </li>
+              <li>
+                <Link to="/admin" className="text-sm hover:underline">لوحة التحكم</Link>
+              </li>
             </ul>
           </div>
 
