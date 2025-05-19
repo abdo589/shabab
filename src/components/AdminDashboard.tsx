@@ -42,9 +42,11 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
       }
 
       if (data) {
+        console.log("تم استلام بيانات المستخدمين:", data.length);
         setUsers(data);
       }
     } catch (error) {
+      console.error("خطأ في استرجاع البيانات:", error);
       if (error instanceof Error) {
         toast({
           title: "خطأ في استرجاع البيانات",
@@ -59,6 +61,13 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
 
   useEffect(() => {
     fetchRegistrations();
+    
+    // إعادة تحميل البيانات كل 30 ثانية
+    const interval = setInterval(() => {
+      fetchRegistrations();
+    }, 30000);
+    
+    return () => clearInterval(interval);
   }, []);
   
   return (
