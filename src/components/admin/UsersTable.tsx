@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User } from './models';
-import { Download, Search, Loader2, FileExcel } from 'lucide-react';
+import { Download, Search, Loader2, FileText } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 interface UsersTableProps {
@@ -87,7 +87,7 @@ const UsersTable = ({ users, loading }: UsersTableProps) => {
             </>
           ) : (
             <>
-              <FileExcel className="ml-2 h-4 w-4" />
+              <FileText className="ml-2 h-4 w-4" />
               تصدير إلى Excel
             </>
           )}
