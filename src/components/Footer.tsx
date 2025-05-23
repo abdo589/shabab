@@ -87,10 +87,6 @@ const Footer = () => {
               />
               <p className="mr-3 text-sm">كلنا نعمل من أجل مصر</p>
             </div>
-            <div className="text-sm opacity-80">
-              <p>تم باشراف معالي الامين محمد سلام امين الشباب قسم منتزة</p>
-              <p>تم التصميم بواسطة م/ عبدالرحمن مصطفى</p>
-            </div>
           </div>
         </div>
       </div>

@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = (username: string, password: string) => {
     // Check credentials against the hard-coded admin values
-    if (username === "admin" && password === "watan2025") {
+    if (username === "admin" && password === "1102003") {
       setIsLoggedIn(true);
       setIsAdmin(true);
       

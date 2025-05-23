@@ -28,7 +28,7 @@ const AdminPage = () => {
     e.preventDefault();
     
     // Check admin credentials
-    if (username === 'admin' && password === 'watan2025') {
+    if (username === 'admin' && password === '1102003') {
       setIsLoggedIn(true);
       localStorage.setItem('adminLoggedIn', 'true');
       toast({
