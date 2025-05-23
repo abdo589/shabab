@@ -14,12 +14,10 @@ export type Database = {
           address: string
           birth_date: string
           created_at: string
-          education: string | null
           email: string | null
           full_name: string
           gender: string
           id: string
-          job_title: string | null
           member_type: string | null
           national_id: string
           phone: string
@@ -28,12 +26,10 @@ export type Database = {
           address: string
           birth_date: string
           created_at?: string
-          education?: string | null
           email?: string | null
           full_name: string
           gender: string
           id?: string
-          job_title?: string | null
           member_type?: string | null
           national_id: string
           phone: string
@@ -42,12 +38,10 @@ export type Database = {
           address?: string
           birth_date?: string
           created_at?: string
-          education?: string | null
           email?: string | null
           full_name?: string
           gender?: string
           id?: string
-          job_title?: string | null
           member_type?: string | null
           national_id?: string
           phone?: string

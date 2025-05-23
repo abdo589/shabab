@@ -30,6 +30,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
   const { toast } = useToast();
 
   const fetchRegistrations = async () => {
+    console.log("بدء استرجاع بيانات المستخدمين...");
     setLoading(true);
     try {
       const { data, error } = await supabase
@@ -37,13 +38,20 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
         .select('*')
         .order('created_at', { ascending: false });
       
+      console.log("استجابة Supabase:", { data, error });
+      
       if (error) {
+        console.error("خطأ في قاعدة البيانات:", error);
         throw error;
       }
 
       if (data) {
         console.log("تم استلام بيانات المستخدمين:", data.length);
+        console.log("البيانات المستلمة:", data);
         setUsers(data);
+      } else {
+        console.log("لا توجد بيانات مستلمة");
+        setUsers([]);
       }
     } catch (error) {
       console.error("خطأ في استرجاع البيانات:", error);
@@ -64,6 +72,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
     
     // إعادة تحميل البيانات كل 30 ثانية
     const interval = setInterval(() => {
+      console.log("إعادة تحميل البيانات تلقائياً...");
       fetchRegistrations();
     }, 30000);
     

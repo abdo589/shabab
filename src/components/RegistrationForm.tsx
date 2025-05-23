@@ -59,6 +59,8 @@ const RegistrationForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log("بدء عملية التسجيل مع البيانات:", formData);
+    
     // Validation
     if (!validateNationalId(formData.nationalId)) {
       toast({
@@ -81,8 +83,10 @@ const RegistrationForm = () => {
     setIsSubmitting(true);
 
     try {
+      console.log("محاولة حفظ البيانات في Supabase...");
+      
       // Save data to Supabase
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('registrations')
         .insert({
           full_name: formData.fullName,
@@ -93,9 +97,15 @@ const RegistrationForm = () => {
           gender: formData.gender,
           birth_date: formData.birthDate,
           member_type: formData.memberType // Add member type
-        });
+        })
+        .select(); // Add .select() to return the inserted data
 
-      if (error) throw error;
+      if (error) {
+        console.error("خطأ في قاعدة البيانات:", error);
+        throw error;
+      }
+      
+      console.log("تم حفظ البيانات بنجاح:", data);
       
       toast({
         title: "تم التسجيل بنجاح!",
@@ -105,7 +115,7 @@ const RegistrationForm = () => {
       // Reset form
       setFormData(initialFormData);
     } catch (error) {
-      console.error("Registration error:", error);
+      console.error("خطأ في التسجيل:", error);
       toast({
         title: "حدث خطأ",
         description: "لم يتم التسجيل، يرجى المحاولة مرة أخرى",
