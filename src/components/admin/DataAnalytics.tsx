@@ -9,10 +9,16 @@ interface DataAnalyticsProps {
   events: Event[];
 }
 
+interface MonthlyData {
+  month: string;
+  count: number;
+  date: Date;
+}
+
 const DataAnalytics = ({ users, events }: DataAnalyticsProps) => {
   // تحليل البيانات حسب الشهر
   const getMonthlyUserData = () => {
-    const monthlyData = {};
+    const monthlyData: Record<string, MonthlyData> = {};
     const monthNames = [
       'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
       'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
@@ -35,7 +41,7 @@ const DataAnalytics = ({ users, events }: DataAnalyticsProps) => {
     });
 
     return Object.values(monthlyData)
-      .sort((a: any, b: any) => a.date - b.date)
+      .sort((a, b) => a.date.getTime() - b.date.getTime())
       .slice(-6); // آخر 6 شهور
   };
 
