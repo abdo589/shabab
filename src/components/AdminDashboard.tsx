@@ -11,6 +11,7 @@ import { LogOut } from 'lucide-react';
 import StatCards from './admin/StatCards';
 import UsersTable from './admin/UsersTable';
 import EventsTable from './admin/EventsTable';
+import DataAnalytics from './admin/DataAnalytics';
 import { User, Event } from './admin/models';
 
 const mockEvents: Event[] = [
@@ -105,6 +106,7 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
         <TabsList className="mb-6 bg-gray-100">
           <TabsTrigger value="users" className="data-[state=active]:bg-white">المستخدمون المسجلين</TabsTrigger>
           <TabsTrigger value="events" className="data-[state=active]:bg-white">الفعاليات</TabsTrigger>
+          <TabsTrigger value="analytics" className="data-[state=active]:bg-white">تحليل البيانات</TabsTrigger>
         </TabsList>
         
         <TabsContent value="users">
@@ -113,6 +115,10 @@ const AdminDashboard = ({ onLogout }: AdminDashboardProps) => {
         
         <TabsContent value="events">
           <EventsTable events={events} />
+        </TabsContent>
+        
+        <TabsContent value="analytics">
+          <DataAnalytics users={users} events={events} />
         </TabsContent>
       </Tabs>
     </motion.div>
