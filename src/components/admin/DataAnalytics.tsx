@@ -1,4 +1,5 @@
 
+import { motion } from 'framer-motion';
 import { User, Event } from './models';
 import AnalyticsStats from './analytics/AnalyticsStats';
 import MonthlyUsersChart from './analytics/MonthlyUsersChart';
@@ -23,21 +24,54 @@ const DataAnalytics = ({ users, events }: DataAnalyticsProps) => {
   const eventParticipationData = getEventParticipationData(events);
   const genderData = getGenderData(users);
 
-  return (
-    <div className="space-y-6">
-      <AnalyticsStats 
-        users={users} 
-        events={events} 
-        monthlyUserData={monthlyUserData} 
-      />
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1
+      }
+    }
+  };
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  return (
+    <motion.div 
+      className="space-y-6"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div variants={sectionVariants}>
+        <AnalyticsStats 
+          users={users} 
+          events={events} 
+          monthlyUserData={monthlyUserData} 
+        />
+      </motion.div>
+
+      <motion.div 
+        className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+        variants={sectionVariants}
+      >
         <MonthlyUsersChart data={monthlyUserData} />
         <EventStatusChart data={eventStatusData} />
         <EventParticipationChart data={eventParticipationData} />
         <GenderChart data={genderData} />
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
