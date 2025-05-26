@@ -9,6 +9,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Lock, User } from 'lucide-react';
 
+// قائمة المستخدمين المصرح لهم
+const authorizedUsers = [
+  { username: "admin", password: "1102003" },
+  { username: "sallam", password: "Ss0155581158@" }
+];
+
 const AdminPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -27,13 +33,15 @@ const AdminPage = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Check admin credentials
-    if (username === 'admin' && password === '1102003') {
+    // التحقق من بيانات الدخول
+    const user = authorizedUsers.find(u => u.username === username && u.password === password);
+    
+    if (user) {
       setIsLoggedIn(true);
       localStorage.setItem('adminLoggedIn', 'true');
       toast({
         title: "تم تسجيل الدخول بنجاح",
-        description: "مرحباً بك في لوحة التحكم",
+        description: `مرحباً بك ${username} في لوحة التحكم`,
       });
     } else {
       toast({

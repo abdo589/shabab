@@ -12,6 +12,12 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// قائمة المستخدمين المصرح لهم
+const authorizedUsers = [
+  { username: "admin", password: "1102003" },
+  { username: "sallam", password: "Ss0155581158@" }
+];
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -28,8 +34,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = (username: string, password: string) => {
-    // Check credentials against the hard-coded admin values
-    if (username === "admin" && password === "1102003") {
+    // التحقق من بيانات الدخول مقابل قائمة المستخدمين المصرح لهم
+    const user = authorizedUsers.find(u => u.username === username && u.password === password);
+    
+    if (user) {
       setIsLoggedIn(true);
       setIsAdmin(true);
       
@@ -38,7 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       
       toast({
         title: "تم تسجيل الدخول بنجاح",
-        description: "مرحباً بك في لوحة التحكم",
+        description: `مرحباً بك ${username} في لوحة التحكم`,
       });
       return true;
     } else {
