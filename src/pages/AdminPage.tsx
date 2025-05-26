@@ -11,7 +11,7 @@ import { Lock, User } from 'lucide-react';
 
 // قائمة المستخدمين المصرح لهم
 const authorizedUsers = [
-  { username: "admin", password: "1102003" },
+  { username: "Abdelrhman Mostafa", password: "1102003" },
   { username: "sallam", password: "Ss0155581158@" }
 ];
 
